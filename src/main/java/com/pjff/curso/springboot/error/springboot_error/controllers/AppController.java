@@ -20,9 +20,9 @@ public class AppController {
     // Mapeamos a la ruta app
     @GetMapping("/app")
     public String index() {
-        // Vid 78,emulando un error
+        // V-78,paso 1.0 emulando un error
         // int value = 100 / 0;
-        // Vid 83,convertyimos un entero con un string para que nos lance la excepcion.
+        // convertimos un entero con un string para que nos lance la excepcion.
         int value = Integer.parseInt("20x");
         System.out.println(value);
         return "ok 200";
@@ -31,29 +31,37 @@ public class AppController {
 }*/
 
 @RestController
-// Vid 85,@RequestMapping, la raiz queda en app
+// V-85,paso 2.5 @RequestMapping, la raiz queda en app
 @RequestMapping("/app")
 public class AppController {
 
-    // Vid 84, inyectamos con autowired
+    // Paso 2.9,inyectamos con autowired?
     @Autowired
+    // Paso 2.4
     private UserService service;
 
     @GetMapping
     public String index() {
         // int value = 100 / 0;
+        // V-83,paso 1.9
         int value = Integer.parseInt("20x");
         System.out.println(value);
         return "ok 200";
     }
 
-    // Vid 85
+    // Paso 2.6
     @GetMapping("/show/{id}")
+    // Paso 2.8
     public User show(@PathVariable(name = "id") Long id) {
-        // encuentra el id o arrojar un error
-        // Vid 86, new UserNotFoundException("Error el usuario no existe!")
+        /*
+         * encuentra el id o arrojar un error
+         * Paso 2.15, new UserNotFoundException("Error el usuario no existe!")
+         * Paso 2.20
+         */
         User user = service.findById(id).orElseThrow(() -> new UserNotFoundException("Error el usuario no existe!"));
         System.out.println(user.getLastname());
+
+        // Paso 2.7
         return user;
     }
 }

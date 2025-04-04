@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Errors {
 
-    // Vid 79
+    // V-79,paso 1.2
     private String message;
     private String error;
     private int status;

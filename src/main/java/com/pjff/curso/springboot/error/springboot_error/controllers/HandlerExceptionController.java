@@ -15,27 +15,29 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.pjff.curso.springboot.error.springboot_error.exceptions.UserNotFoundException;
 import com.pjff.curso.springboot.error.springboot_error.models.Errors;
 
-//Vid 80
-
+//V-80,paso 1.3, creamos el HandlerExceptionController
 @RestControllerAdvice
 public class HandlerExceptionController {
-    // Vid 80
+
     @ExceptionHandler({ ArithmeticException.class })
+    // Paso 1.4 Errros es de nosotros
     public ResponseEntity<Errors> divisionByZero(Exception ex) {
 
-        // Vid 81, Creamos una nueva instancia
+        // V-81,paso 1.6 Creamos una nueva instancia
         Errors error = new Errors();
         error.setDate(new Date());
         error.setError("Error division por cero!");
         error.setMessage(ex.getMessage());
         error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 
-        // return ResponseEntity.internalServerError().body(error);
-        // Esta es otra forma de escribir la parte de arriba.
+        /*
+         * Paso 1.5, return ResponseEntity.internalServerError().body(error);
+         * Esta es otra forma de escribir la parte de arriba.
+         */
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(error);
     }
 
-    // Vid 83,esta es otra forma de hacerla
+    // Paso 1.10,esta es otra forma de hacerla
     @ExceptionHandler(NumberFormatException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> numberFormatException(Exception ex) {
@@ -43,15 +45,32 @@ public class HandlerExceptionController {
         // Importamos el mapa
         Map<String, Object> error = new HashMap<>();
         error.put("date", new Date());
-        error.put("error", "numero invalido o incorrecto, no tiene formato de digito!");
+        error.put("error", "número inválido o incorrecto, no tiene formato de dígito!");
         error.put("message", ex.getMessage());
         error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
 
         return error;
     }
 
-    // Vid 86, para cachar la excepcion NullPointerException. y usuario no
-    // encontrado.
+    // V-82,paso 1.7 cuando hay eror 404,esta es una forma mejor
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<Errors> notFoundEx(NoHandlerFoundException e) {
+        Errors error = new Errors();
+        error.setDate(new Date());
+        error.setError("Api rest no encontrado");
+        error.setMessage(e.getMessage());
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
+    }
+
+    /*
+     * V-86,paso 2.13 para cachar la excepcion NullPointerException. y usuario no
+     * encontrado.
+     * Paso 2.16, le agreamos el UserNotFoundException.class, cualquiera que caiga
+     * de
+     * las 3 le mandaremos el mensaje de abajo ,
+     */
     @ExceptionHandler({ NullPointerException.class,
             HttpMessageNotWritableException.class,
             UserNotFoundException.class })
@@ -65,18 +84,5 @@ public class HandlerExceptionController {
         error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
 
         return error;
-    }
-
-    // Vid 82, cuando hay eror 404,esta es una forma mejor
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<Errors> notFoundEx(NoHandlerFoundException e) {
-        Errors error = new Errors();
-        error.setDate(new Date());
-        error.setError("Api rest no encontrado");
-        error.setMessage(e.getMessage());
-
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
     }
 }

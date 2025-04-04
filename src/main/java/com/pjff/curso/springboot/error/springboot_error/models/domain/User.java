@@ -1,12 +1,12 @@
 package com.pjff.curso.springboot.error.springboot_error.models.domain;
 
-//Vid 84
+//V-84, paso 2.0
 public class User {
     private Long id;
     private String name;
     private String lastname;
 
-    // Vid 85, creamos al Role
+    // Paso 2.11, creamos al Role
     private Role role;
 
     // Creamos sus setters and gettes
@@ -48,7 +48,7 @@ public class User {
         return role;
     }
 
-    // Vid 85
+    // Paso 2.12
     // public String getRoleName() {
     // return role.getName();
     // }

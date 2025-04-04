@@ -7,10 +7,10 @@ import com.pjff.curso.springboot.error.springboot_error.models.domain.User;
 
 public interface UserService {
 
-    // Vid 84, tenemos un listado y devuelve todos.
+    // Paso 2.1, tenemos un listado y devuelve todos.
     List<User> findAll();
 
-    // Vid 87, el optional podria contenerlo o no
+    // V-87,paso 2.18 el optional podria contenerlo o no
     Optional<User> findById(Long id);
 
 }

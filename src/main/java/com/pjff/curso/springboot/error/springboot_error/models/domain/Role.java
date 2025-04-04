@@ -1,6 +1,6 @@
 package com.pjff.curso.springboot.error.springboot_error.models.domain;
 
-//Vid 85
+//Paso 2.10
 public class Role {
     private String name;
 
